@@ -78,7 +78,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
 | `image.registry`           | MariaDB image registry                                                                                                                                                                                                                                                        | `docker.io`             |
 | `image.repository`         | MariaDB image repository                                                                                                                                                                                                                                                      | `bitnami/mariadb`       |
-| `image.tag`                | MariaDB image tag (immutable tags are recommended)                                                                                                                                                                                                                            | `10.5.12-debian-10-r68` |
+| `image.tag`                | MariaDB image tag (immutable tags are recommended)                                                                                                                                                                                                                            | `10.5.12-debian-10-r78` |
 | `image.pullPolicy`         | MariaDB image pull policy                                                                                                                                                                                                                                                     | `IfNotPresent`          |
 | `image.pullSecrets`        | Specify docker-registry secret names as an array                                                                                                                                                                                                                              | `[]`                    |
 | `image.debug`              | Specify if debug logs should be enabled                                                                                                                                                                                                                                       | `false`                 |
@@ -274,7 +274,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `volumePermissions.enabled`            | Enable init container that changes the owner and group of the persistent volume(s) mountpoint to `runAsUser:fsGroup` | `false`                 |
 | `volumePermissions.image.registry`     | Init container volume-permissions image registry                                                                     | `docker.io`             |
 | `volumePermissions.image.repository`   | Init container volume-permissions image repository                                                                   | `bitnami/bitnami-shell` |
-| `volumePermissions.image.tag`          | Init container volume-permissions image tag (immutable tags are recommended)                                         | `10-debian-10-r232`     |
+| `volumePermissions.image.tag`          | Init container volume-permissions image tag (immutable tags are recommended)                                         | `10-debian-10-r242`     |
 | `volumePermissions.image.pullPolicy`   | Init container volume-permissions image pull policy                                                                  | `IfNotPresent`          |
 | `volumePermissions.image.pullSecrets`  | Specify docker-registry secret names as an array                                                                     | `[]`                    |
 | `volumePermissions.resources.limits`   | Init container volume-permissions resource limits                                                                    | `{}`                    |
@@ -288,7 +288,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `metrics.enabled`                            | Start a side-car prometheus exporter                                                | `false`                   |
 | `metrics.image.registry`                     | Exporter image registry                                                             | `docker.io`               |
 | `metrics.image.repository`                   | Exporter image repository                                                           | `bitnami/mysqld-exporter` |
-| `metrics.image.tag`                          | Exporter image tag (immutable tags are recommended)                                 | `0.13.0-debian-10-r135`   |
+| `metrics.image.tag`                          | Exporter image tag (immutable tags are recommended)                                 | `0.13.0-debian-10-r145`   |
 | `metrics.image.pullPolicy`                   | Exporter image pull policy                                                          | `IfNotPresent`            |
 | `metrics.image.pullSecrets`                  | Specify docker-registry secret names as an array                                    | `[]`                      |
 | `metrics.annotations`                        | Annotations for the Exporter pod                                                    | `{}`                      |
@@ -315,6 +315,26 @@ The command removes all the Kubernetes components associated with the chart and 
 | `metrics.serviceMonitor.honorLabels`         | honorLabels chooses the metric's labels on collisions with target labels.           | `false`                   |
 | `metrics.serviceMonitor.release`             | Used to pass Labels release that sometimes should be custom for Prometheus Operator | `""`                      |
 | `metrics.serviceMonitor.additionalLabels`    | Used to pass Labels that are required by the Installed Prometheus Operator          | `{}`                      |
+
+
+### NetworkPolicy parameters
+
+| Name                                                                   | Description                                                                                                                | Value   |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `networkPolicy.enabled`                                                | Enable network policies                                                                                                    | `false` |
+| `networkPolicy.metrics.enabled`                                        | Enable network policy for metrics (prometheus)                                                                             | `false` |
+| `networkPolicy.metrics.namespaceSelector`                              | Monitoring namespace selector labels. These labels will be used to identify the prometheus' namespace.                     | `{}`    |
+| `networkPolicy.metrics.podSelector`                                    | Monitoring pod selector labels. These labels will be used to identify the Prometheus pods.                                 | `{}`    |
+| `networkPolicy.ingressRules.primaryAccessOnlyFrom.enabled`             | Enable ingress rule that makes drupal only accessible from a particular origin                                             | `false` |
+| `networkPolicy.ingressRules.primaryAccessOnlyFrom.namespaceSelector`   | Namespace selector label that is allowed to access drupal. This label will be used to identified the allowed namespace(s). | `{}`    |
+| `networkPolicy.ingressRules.primaryAccessOnlyFrom.podSelector`         | Pods selector label that is allowed to access drupal. This label will be used to identified the allowed pod(s).            | `{}`    |
+| `networkPolicy.ingressRules.primaryAccessOnlyFrom.customRules`         | Custom network policy ingress rule                                                                                         | `{}`    |
+| `networkPolicy.ingressRules.secondaryAccessOnlyFrom.enabled`           | Enable ingress rule that makes drupal only accessible from a particular origin                                             | `false` |
+| `networkPolicy.ingressRules.secondaryAccessOnlyFrom.namespaceSelector` | Namespace selector label that is allowed to access drupal. This label will be used to identified the allowed namespace(s). | `{}`    |
+| `networkPolicy.ingressRules.secondaryAccessOnlyFrom.podSelector`       | Pods selector label that is allowed to access drupal. This label will be used to identified the allowed pod(s).            | `{}`    |
+| `networkPolicy.ingressRules.secondaryAccessOnlyFrom.customRules`       | Custom network policy ingress rule                                                                                         | `{}`    |
+| `networkPolicy.egressRules.denyConnectionsToExternal`                  | Enable egress rule that denies outgoing traffic outside the cluster, except for DNS (port 53).                             | `false` |
+| `networkPolicy.egressRules.customRules`                                | Custom network policy rule                                                                                                 | `{}`    |
 
 
 The above parameters map to the env variables defined in [bitnami/mariadb](http://github.com/bitnami/bitnami-docker-mariadb). For more information please refer to the [bitnami/mariadb](http://github.com/bitnami/bitnami-docker-mariadb) image documentation.
